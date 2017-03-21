@@ -1,5 +1,8 @@
 language: csharp
+solution: CafeApp.sln
+install:
+	- nuget restore CafeApp.sln
+	- nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
-  - ./build.sh RunUnitTests
-mono:
-  - latest
+	- xbuild /p:Configuration=Release CafeApp.sln
+	- mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./CafeApp.Core.Tests/bin/Release/CafeApp.Core.Tests.dll
