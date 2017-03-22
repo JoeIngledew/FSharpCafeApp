@@ -6,7 +6,7 @@ open System
 
 type TableActions = {
     OpenTab : Tab -> Async<unit>
-    RecievedOrder : Guid -> Async<unit>
+    ReceivedOrder : Guid -> Async<unit>
     CloseTab : Tab -> Async<unit>
 }
 
@@ -42,7 +42,7 @@ let projectedReadModel actions = function
 | OrderPlaced order ->
     let tabId = order.Tab.Id
     [
-        actions.Table.RecievedOrder tabId
+        actions.Table.ReceivedOrder tabId
         actions.Chef.AddFoodsToPrepare tabId order.Foods
         actions.Waiter.AddDrinksToServe tabId order.Drinks
     ] |> Async.Parallel
