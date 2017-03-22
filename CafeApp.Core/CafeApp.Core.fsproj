@@ -60,8 +60,11 @@
     <Compile Include="Errors.fs" />
     <Compile Include="CommandHandlers.fs" />
     <Compile Include="CafeAppTestsDSL.fs" />
+    <Compile Include="TestData.fs" />
     <Compile Include="OpenTabTests.fs" />
     <Compile Include="PlaceOrderTests.fs" />
+    <Compile Include="ServeDrinkTests.fs" />
+    <Compile Include="PrepareFoodTests.fs" />
     <Content Include="App.config" />
     <Content Include="packages.config" />
   </ItemGroup>
