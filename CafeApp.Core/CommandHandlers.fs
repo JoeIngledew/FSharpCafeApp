@@ -8,6 +8,8 @@ open Domain
 open Chessie.ErrorHandling
 open Errors
 
+let payment order = {Tab = order.Tab; Amount = orderAmount order}
+
 let handleOpenTab tab = function
 | ClosedTab _ -> [TabOpened tab] |> ok
 | _ -> TabAlreadyOpened |> fail
@@ -36,6 +38,11 @@ let (|AlreadyServedDrink|_|) ipo drink =
     | true -> Some drink
     | false -> None
 
+let (|ServeDrinkCompletesIPOrder|_|) ipo drink =
+    match isServingDrinkCompletesIPOrder ipo drink with
+    | true -> Some drink
+    | false -> None
+
 let handleServeDrink drink tabId = function
 | PlacedOrder order ->
     let event = DrinkServed (drink,tabId)
@@ -57,6 +64,10 @@ let handleServeDrink drink tabId = function
         CanNotServeNonOrderedDrink drink |> fail
     | AlreadyServedDrink ipo _ ->
         CanNotServeAlreadyServedDrink drink |> fail
+    | ServeDrinkCompletesIPOrder ipo _ ->
+        
+        drinkServed :: [OrderServed (order, payment order)]
+        |> ok
     | _ -> [drinkServed] |> ok
 
 let (|NonOrderedFood|_|) order food =
@@ -66,6 +77,11 @@ let (|NonOrderedFood|_|) order food =
 
 let (|AlreadyPreparedFood|_|) ipo food =
     match List.contains food ipo.PreparedFoods with
+    | true -> Some food
+    | false -> None
+
+let (|ServeFoodCompletesIPOrder|_|) ipo food =
+    match isServindFoodCompletesIPOrder ipo food with
     | true -> Some food
     | false -> None
 
@@ -80,6 +96,7 @@ let handlePrepareFood food tabId = function
 | ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
 | OrderInProgress ipo ->
     let order = ipo.PlacedOrder
+    let foodServed = FoodServed (food, tabId)
     match food with 
     | NonOrderedFood order _ ->
         CanNotPrepareNonOrderedFood food |> fail
@@ -87,12 +104,43 @@ let handlePrepareFood food tabId = function
         CanNotPrepareAlreadyPreparedFood food |> fail
     | _ -> [FoodPrepared (food, tabId)] |> ok
 
+let (|UnPreparedFood|_|) ipo food =
+    match List.contains food ipo.PreparedFoods with
+    | false -> Some food
+    | true -> None
+
+let (|AlreadyServedFood|_|) ipo food =
+    match List.contains food ipo.ServedFoods with
+    | true -> Some food
+    | false -> None
+
+let handleServeFood food tabId = function
+| OrderInProgress ipo ->
+    let order = ipo.PlacedOrder
+    let foodServed = FoodServed (food, tabId)
+    match food with
+    | NonOrderedFood order _ ->
+        CanNotServeNonOrderedFood food |> fail
+    | AlreadyServedFood ipo _ ->
+        CanNotServeAlreadyServedFood food |> fail
+    | UnPreparedFood ipo _ ->
+        CanNotServeNonPreparedFood food |> fail
+    | ServeFoodCompletesIPOrder ipo _ ->
+        foodServed :: [OrderServed (ipo.PlacedOrder, payment order)]
+        |> ok
+    | _ -> [FoodServed (food, tabId)] |> ok
+| PlacedOrder _ -> CanNotServeNonPreparedFood food |> fail
+| ServedOrder _ -> OrderAlreadyServed |> fail
+| OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
+| ClosedTab _ -> CanNotServeWithClosedTab |> fail
+
 let execute state command =
   match command with
   | OpenTab tab -> handleOpenTab tab state
   | PlaceOrder order -> handlePlaceOrder order state
   | ServeDrink (drink,tabId) -> handleServeDrink drink tabId state
   | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
+  | ServeFood (food, tabId) -> handleServeFood food tabId state
   | _ -> failwith "ToDo"
 
 let evolve state command =
