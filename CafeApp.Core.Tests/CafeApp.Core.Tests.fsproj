@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>6f4b5d7c-e98c-46d7-8d10-17f11fb0ab7d</ProjectGuid>
+    <ProjectGuid>88ff0543-8519-4870-9dd7-46bb1343da34</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>CafeApp.Core.Tests</RootNamespace>
     <AssemblyName>CafeApp.Core.Tests</AssemblyName>
@@ -51,32 +51,35 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <None Include="Script.fsx" />
     <Compile Include="CafeAppTestsDSL.fs" />
     <Compile Include="OpenTabTests.fs" />
+    <None Include="Script.fsx" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.3.1.2.5\lib\net40\FSharp.Core.dll</HintPath>
+    <Reference Include="Chessie">
+      <HintPath>..\packages\Chessie.0.6.0\lib\net40\Chessie.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FSharp.Core, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="FsUnit.NUnit">
-      <HintPath>..\packages\FsUnit.1.4.1.0\lib\net45\FsUnit.NUnit.dll</HintPath>
+      <HintPath>..\packages\FsUnit.3.0.0\lib\net45\FsUnit.NUnit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="NHamcrest">
-      <HintPath>..\packages\FsUnit.1.4.1.0\lib\net45\NHamcrest.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CafeApp.Core\CafeApp.Core.fsproj">
       <Name>CafeApp.Core</Name>
       <Project>{2022a0cb-130f-4fe3-989b-cef9bb7bffb3}</Project>

@@ -13,7 +13,7 @@ type Item = {
   Name : string
 }
 
-type Food = Food of Item
+type Food = Food of Item 
 type Drink = Drink of Item
 
 type Payment = {

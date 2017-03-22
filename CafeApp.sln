@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.travis.yml = .travis.yml
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Core.Tests", "CafeApp.Core.Tests\CafeApp.Core.Tests.fsproj", "{6F4B5D7C-E98C-46D7-8D10-17F11FB0AB7D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{2022A0CB-130F-4FE3-989B-CEF9BB7BFFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2022A0CB-130F-4FE3-989B-CEF9BB7BFFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2022A0CB-130F-4FE3-989B-CEF9BB7BFFB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F4B5D7C-E98C-46D7-8D10-17F11FB0AB7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F4B5D7C-E98C-46D7-8D10-17F11FB0AB7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F4B5D7C-E98C-46D7-8D10-17F11FB0AB7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F4B5D7C-E98C-46D7-8D10-17F11FB0AB7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 module States
 
 open Domain
+open Events
 open System
 
 type State =
@@ -12,4 +13,5 @@ type State =
 
 let apply state event =
   match state,event with
-  | _ -> ClosedTab None
+  | ClosedTab _, TabOpened tab -> OpenedTab tab
+  | _ -> state
