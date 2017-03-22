@@ -61,6 +61,7 @@
     <Compile Include="CommandHandlers.fs" />
     <Compile Include="CafeAppTestsDSL.fs" />
     <Compile Include="OpenTabTests.fs" />
+    <Compile Include="PlaceOrderTests.fs" />
     <Content Include="App.config" />
     <Content Include="packages.config" />
   </ItemGroup>

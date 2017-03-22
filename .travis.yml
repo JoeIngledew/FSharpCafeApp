@@ -1,8 +1,10 @@
 language: csharp
 solution: CafeApp.sln
-install:
-  - nuget restore CafeApp.sln
-  - nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release CafeApp.sln
-  - mono ./testrunner/NUnit.Console.3.6.0/tools/nunit-console.exe ./CafeApp.Core/bin/Release/CafeApp.Core.dll
+before_install:
+  - sudo apt-get install nunit-Console
+before_script:
+  - nuget restore CafeApp.sln
+after_script:
+  - nunit-console ./CafeApp.Core/bin/Release/CafeApp.Core.dll
