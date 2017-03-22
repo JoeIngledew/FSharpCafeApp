@@ -10,6 +10,7 @@ type State =
 | PlacedOrder of Order
 | OrderInProgress of InProgressOrder
 | ServedOrder of Order
+| ModifiedOrder of Order
 with override this.ToString () = sprintf "(%A)" this
 
 let apply state event =
@@ -41,4 +42,8 @@ let apply state event =
     | OrderInProgress ipo, FoodServed (item,_) ->
         {ipo with ServedFoods = item :: ipo.ServedFoods}
         |> OrderInProgress
+    | ServedOrder order, TabClosed payment ->
+        ClosedTab (Some payment.Tab.Id)
+    | ModifiedOrder order, OrderModified o ->
+        PlacedOrder o
     | _ -> state

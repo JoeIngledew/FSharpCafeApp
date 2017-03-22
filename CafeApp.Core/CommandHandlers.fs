@@ -3,7 +3,6 @@ module CommandHandlers
 open States
 open Events
 open Commands
-open System
 open Domain
 open Chessie.ErrorHandling
 open Errors
@@ -43,9 +42,8 @@ let (|ServeDrinkCompletesIPOrder|_|) ipo drink =
     | true -> Some drink
     | false -> None
 
-let handleServeDrink drink tabId = function
-| PlacedOrder order ->
-    let event = DrinkServed (drink,tabId)
+let validHandleServeDrink drink order =
+    let event = DrinkServed (drink,order.Tab.Id)
     match drink with 
     | NonOrderedDrink order _ ->
         CanNotServeNonOrderedDrink drink |> fail
@@ -53,9 +51,15 @@ let handleServeDrink drink tabId = function
         let payment = {Tab = order.Tab; Amount = orderAmount order}
         event :: [OrderServed (order, payment)] |> ok
     | _ -> [event] |> ok
+
+let handleServeDrink drink tabId = function
+| PlacedOrder order ->
+    validHandleServeDrink drink order
 | ServedOrder _ -> OrderAlreadyServed |> fail
 | OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
 | ClosedTab _ -> CanNotServeWithClosedTab |> fail
+| ModifiedOrder order -> 
+    validHandleServeDrink drink order
 | OrderInProgress ipo ->
     let order = ipo.PlacedOrder
     let drinkServed = DrinkServed (drink, order.Tab.Id)
@@ -85,12 +89,17 @@ let (|ServeFoodCompletesIPOrder|_|) ipo food =
     | true -> Some food
     | false -> None
 
-let handlePrepareFood food tabId = function
-| PlacedOrder order ->
+let validHandlePrepareFood food order =
     match food with
     | NonOrderedFood order _ ->
         CanNotPrepareNonOrderedFood food |> fail
-    | _ -> [FoodPrepared (food, tabId)] |> ok
+    | _ -> [FoodPrepared (food, order.Tab.Id)] |> ok
+
+let handlePrepareFood food tabId = function
+| PlacedOrder order ->
+    validHandlePrepareFood food order
+| ModifiedOrder order ->
+    validHandlePrepareFood food order
 | ServedOrder _ -> OrderAlreadyServed |> fail
 | OpenedTab _ -> CanNotPrepareForNonPlacedOrder |> fail
 | ClosedTab _ -> CanNotPrepareWithClosedTab |> fail
@@ -130,22 +139,38 @@ let handleServeFood food tabId = function
         |> ok
     | _ -> [FoodServed (food, tabId)] |> ok
 | PlacedOrder _ -> CanNotServeNonPreparedFood food |> fail
+| ModifiedOrder _ -> CanNotServeNonPreparedFood food |> fail
 | ServedOrder _ -> OrderAlreadyServed |> fail
 | OpenedTab _ -> CanNotServeForNonPlacedOrder |> fail
 | ClosedTab _ -> CanNotServeWithClosedTab |> fail
 
+let handleCloseTab payment = function
+| ServedOrder order ->
+    let orderAmount = orderAmount order
+    if payment.Amount >= orderAmount then 
+        [TabClosed payment] |> ok
+    else 
+        InvalidPayment (orderAmount, payment.Amount) |> fail
+| _ -> CanNotPayForNonServedOrder |> fail
+
+let handleModifyOrder order = function
+| PlacedOrder oldOrder ->
+    [OrderModified order] |> ok
+| _ -> failwith "todo"
+
 let execute state command =
-  match command with
-  | OpenTab tab -> handleOpenTab tab state
-  | PlaceOrder order -> handlePlaceOrder order state
-  | ServeDrink (drink,tabId) -> handleServeDrink drink tabId state
-  | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
-  | ServeFood (food, tabId) -> handleServeFood food tabId state
-  | _ -> failwith "ToDo"
+    match command with
+    | OpenTab tab -> handleOpenTab tab state
+    | PlaceOrder order -> handlePlaceOrder order state
+    | ServeDrink (drink,tabId) -> handleServeDrink drink tabId state
+    | PrepareFood (food, tabId) -> handlePrepareFood food tabId state
+    | ServeFood (food, tabId) -> handleServeFood food tabId state
+    | CloseTab payment -> handleCloseTab payment state
+    | ModifyOrder order -> handleModifyOrder order state
 
 let evolve state command =
-  match execute state command with
-  | Ok (events,_) ->
-    let newState = List.fold States.apply state events
-    (newState, events) |> ok
-  | Bad err -> Bad err
+    match execute state command with
+    | Ok (events,_) ->
+        let newState = List.fold States.apply state events
+        (newState, events) |> ok
+    | Bad err -> Bad err

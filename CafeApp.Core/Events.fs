@@ -11,3 +11,4 @@ type Event =
 | FoodServed of Food * Guid
 | OrderServed of Order * Payment
 | TabClosed of Payment
+| OrderModified of Order
