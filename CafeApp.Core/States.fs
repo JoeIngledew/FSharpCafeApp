@@ -10,6 +10,7 @@ type State =
 | PlacedOrder of Order
 | OrderInProgress of InProgressOrder
 | ServedOrder of Order
+with override this.ToString () = sprintf "(%A)" this
 
 let apply state event =
     match state,event with
@@ -24,6 +25,9 @@ let apply state event =
         } |> OrderInProgress
     | OrderInProgress ipo, OrderServed (order, _) ->
         ServedOrder order
+    | OrderInProgress ipo, DrinkServed (item,_) ->
+        { ipo with ServedDrinks = item :: ipo.ServedDrinks }
+        |> OrderInProgress
     | PlacedOrder order, FoodPrepared (food,_) ->
         {
             PlacedOrder = order
@@ -31,4 +35,7 @@ let apply state event =
             ServedDrinks = []
             ServedFoods = []            
         } |> OrderInProgress
+    | OrderInProgress ipo, FoodPrepared (food,_) ->
+        {ipo with PreparedFoods = food :: ipo.PreparedFoods}
+        |> OrderInProgress
     | _ -> state
