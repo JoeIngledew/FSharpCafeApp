@@ -7,7 +7,7 @@ open Events
 
 type EventStore = {
     GetState : Guid -> Async<State>
-    SaveEvent : State -> Event -> Async<unit>
+    SaveEvent : State -> Event list -> Async<unit>
 }
 
 let getStateFromEvents events =
@@ -21,6 +21,7 @@ let getTabIdFromState = function
 | OrderInProgress ipo -> Some ipo.PlacedOrder.Tab.Id
 | ServedOrder payment -> Some payment.Tab.Id
 | ClosedTab (Some tabId) -> Some tabId
+| ModifiedOrder mo -> Some mo.Tab.Id
 
 let saveEvent (storeEvents : IStoreEvents) state event =
     match getTabIdFromState state with
