@@ -12,6 +12,7 @@ open Cashier
 open EventStore
 open NEventStore
 open Queries
+open Items
 
 type InMemoryEventStore () =
     static member Instance =
@@ -35,6 +36,8 @@ let toDoQueries = {
 let inMemoryQueries = {
     Table = tableQueries
     ToDo = toDoQueries
+    Food = foodQueries
+    Drink = drinkQueries
 }
 
 let inMemoryActions = {

@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>f2121974-33f9-41bd-820b-8c73b6eec038</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>CafeApp.Persistence.InMemory</RootNamespace>
-    <AssemblyName>CafeApp.Persistence.InMemory</AssemblyName>
+    <ProjectGuid>c59255c9-49f3-4b36-9373-9cd10493daaa</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CafeApp.Web</RootNamespace>
+    <AssemblyName>CafeApp.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>CafeApp.Persistence.InMemory</Name>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
+    <Name>CafeApp.Web</Name>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,7 +23,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\CafeApp.Persistence.InMemory.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Debug\CafeApp.Web.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +34,9 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\CafeApp.Persistence.InMemory.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Release\CafeApp.Web.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -52,29 +56,43 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Table.fs" />
-    <Compile Include="Chef.fs" />
-    <Compile Include="Waiter.fs" />
-    <Compile Include="Cashier.fs" />
-    <Compile Include="Items.fs" />
-    <Compile Include="InMemory.fs" />
+    <Compile Include="Program.fs" />
+    <None Include="App.config" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <Reference Include="Chessie">
+      <HintPath>..\packages\Chessie.0.6.0\lib\net40\Chessie.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\4.4.0.0\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
     <Reference Include="NEventStore">
       <HintPath>..\packages\NEventStore.5.2.0\lib\net40\NEventStore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Suave">
+      <HintPath>..\packages\Suave.2.0.4\lib\net40\Suave.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\CafeApp.Commands.Api\CafeApp.Commands.Api.fsproj">
+      <Name>CafeApp.Commands.Api</Name>
+      <Project>{57666c10-da63-4a4e-81a2-50e38a4aa033}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\CafeApp.Core\CafeApp.Core.fsproj">
       <Name>CafeApp.Core</Name>
       <Project>{2022a0cb-130f-4fe3-989b-cef9bb7bffb3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CafeApp.Persistence.InMemory\CafeApp.Persistence.InMemory.fsproj">
+      <Name>CafeApp.Persistence.InMemory</Name>
+      <Project>{f2121974-33f9-41bd-820b-8c73b6eec038}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\CafeApp.Persistence\CafeApp.Persistence.fsproj">
@@ -82,6 +100,10 @@
       <Project>{7baa7b70-b4bb-4592-a2d1-5dc0b3519f33}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

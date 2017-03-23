@@ -17,6 +17,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Persistence.InMemor
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Commands.Api", "CafeApp.Commands.Api\CafeApp.Commands.Api.fsproj", "{57666C10-DA63-4A4E-81A2-50E38A4AA033}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CafeApp.Web", "CafeApp.Web\CafeApp.Web.fsproj", "{C59255C9-49F3-4B36-9373-9CD10493DAAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{57666C10-DA63-4A4E-81A2-50E38A4AA033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57666C10-DA63-4A4E-81A2-50E38A4AA033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57666C10-DA63-4A4E-81A2-50E38A4AA033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C59255C9-49F3-4B36-9373-9CD10493DAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59255C9-49F3-4B36-9373-9CD10493DAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59255C9-49F3-4B36-9373-9CD10493DAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59255C9-49F3-4B36-9373-9CD10493DAAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
