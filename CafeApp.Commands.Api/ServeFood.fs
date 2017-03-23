@@ -1,22 +1,22 @@
-﻿module PrepareFood
+﻿module ServeFood
 
 open FSharp.Data
 open CommandHandlers
 open Commands
 
 [<Literal>]
-let PrepareFoodJson = """{
-    "prepareFood" : {
+let ServeFoodJson = """{
+    "serveFood" : {
         "tabId" : "2a964d85-f503-40a1-8014-2c8ee5ac4a49",
         "menuNumber" : 10
     }
 }"""
 
-type PrepareFoodReq = JsonProvider<PrepareFoodJson>
+type ServeFoodReq = JsonProvider<ServeFoodJson>
 
-let (|PrepareFoodRequest|_|) payload =
+let (|ServeFoodRequest|_|) payload =
     try
-        let req = PrepareFoodReq.Parse(payload).PrepareFood
+        let req = ServeFoodReq.Parse(payload).ServeFood
         (req.TabId, req.MenuNumber) |> Some
     with
     | ex -> None
@@ -33,8 +33,8 @@ let validateFood getTableByTabId getFoodByMenuNumber (tabId, foodMenuNumber) = a
     | _ -> return Choice2Of2 "Invalid tab id"
 }
 
-let prepareFoodCommander getTableByTabId getFoodByMenuNumber = 
+let serveFoodCommander getTableByTabId getFoodByMenuNumber = 
     {
         Validate = validateFood getTableByTabId getFoodByMenuNumber
-        ToCommand = PrepareFood
+        ToCommand = ServeFood
     }

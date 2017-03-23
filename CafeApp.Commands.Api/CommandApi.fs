@@ -6,6 +6,8 @@ open OpenTab
 open PlaceOrder
 open ServeDrink
 open PrepareFood
+open ServeFood
+open CloseTab
 open Queries
 open Chessie.ErrorHandling
 
@@ -27,4 +29,11 @@ let handleCommandRequest queries eventStore = function
     queries.Food.GetFoodByMenuNumber
     |> prepareFoodCommander queries.Table.GetTableByTabId
     |> handleCommand eventStore (tabId, foodMenuNumber)
+| ServeFoodRequest (tabId, foodMenuNumber) ->
+    queries.Food.GetFoodByMenuNumber
+    |> serveFoodCommander queries.Table.GetTableByTabId
+    |> handleCommand eventStore (tabId, foodMenuNumber)
+| CloseTabRequest (tabId, amount) ->
+    closeTabCommander queries.Table.GetTableByTabId
+    |> handleCommand eventStore (tabId, amount)
 | _ -> err "Invalid command" |> fail |> async.Return
