@@ -5,7 +5,5 @@ script:
 #  - xbuild /p:Configuration=Release CafeApp.sln
 before_install:
   - sudo apt-get install nunit-console
-#before_script:
-#  - nuget restore CafeApp.sln
 after_script:
   - nunit-console ./CafeApp.Core/bin/Release/CafeApp.Core.dll

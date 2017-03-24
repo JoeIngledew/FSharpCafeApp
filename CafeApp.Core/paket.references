@@ -1,0 +1,12 @@
+Chessie
+FSharp.Core
+FsUnit
+NUnit
+NUnit.Console
+NUnit.ConsoleRunner
+NUnit.Extension.NUnitProjectLoader
+NUnit.Extension.NUnitV2Driver
+NUnit.Extension.NUnitV2ResultWriter
+NUnit.Extension.TeamCityEventListener
+NUnit.Extension.VSProjectLoader
+System.ValueTuple
