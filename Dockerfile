@@ -1,4 +1,4 @@
-FROM mono:4.2.3.4
+FROM mono:4.8.0.520
 
 RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - \
     && apt-get install -y nodejs
