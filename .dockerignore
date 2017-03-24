@@ -1,8 +1,6 @@
-.paket/paket.exe
-paket-files
-build
-projekt-init.sh
+.git
+.vs
 .projekt
+build/*
 packages
-client/public
-client/node_modules
+.gitignore
