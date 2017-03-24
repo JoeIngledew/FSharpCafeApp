@@ -1,7 +1,7 @@
 language: csharp
 #solution: CafeApp.sln
 script:
-  - ./build.sh BuildApp
+  - sh ./build.sh BuildApp
 #  - xbuild /p:Configuration=Release CafeApp.sln
 before_install:
   - sudo apt-get install nunit-console
