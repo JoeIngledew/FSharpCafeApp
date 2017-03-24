@@ -1,5 +1,7 @@
 ﻿module Program
 
+open System
+open System.Reflection
 open Suave
 open Suave.Web
 open Suave.Successful
@@ -17,6 +19,7 @@ open QueriesApi
 open Suave.Sockets
 open Suave.Sockets.Control
 open Suave.WebSocket
+open System.IO
 
 let eventsStream = new Control.Event<Event list>()
 
@@ -24,10 +27,10 @@ let project event =
     projectedReadModel inMemoryActions event
     |> Async.RunSynchronously |> ignore
 
-let projectEvents = List.iter project    
+let projectEvents = List.iter project
 
 let commandApiHandler eventStore (context : HttpContext) = async {
-    let payload = 
+    let payload =
         Encoding.UTF8.GetString context.request.rawForm
     let! response =
         handleCommandRequest inMemoryQueries eventStore payload
@@ -45,7 +48,7 @@ let commandApi eventStore =
         >=> POST
         >=> commandApiHandler eventStore
 
-let socketHandler (ws : WebSocket) (cx : HttpContext) = 
+let socketHandler (ws : WebSocket) (cx : HttpContext) =
     socket {
         while true do
             let! events =
@@ -58,8 +61,13 @@ let socketHandler (ws : WebSocket) (cx : HttpContext) =
                 do! ws.send Text eventData true
     }
 
+let clientDir =
+    let exePath = Assembly.GetEntryAssembly().Location
+    let exeDir = (new FileInfo(exePath)).Directory
+    Path.Combine(exeDir.FullName, "public")
+
 [<EntryPoint>]
-let main argv = 
+let main argv =
     let app =
         let eventStore = inMemoryEventStore ()
         choose [
@@ -67,9 +75,15 @@ let main argv =
                 handShake socketHandler
             commandApi eventStore
             queriesApi inMemoryQueries eventStore
+            GET >=> choose [
+                path "/" >=> Files.browseFileHome "index.html"
+                Files.browseHome
+            ]
         ]
     let cfg =
-        { defaultConfig with bindings = [HttpBinding.createSimple HTTP "0.0.0.0" 8083] }
+        { defaultConfig with
+            homeFolder = Some(clientDir)
+            bindings = [HttpBinding.createSimple HTTP "0.0.0.0" 8083] }
     startWebServer cfg app
     eventsStream.Publish.Add(projectEvents)
     0 // return an integer exit code

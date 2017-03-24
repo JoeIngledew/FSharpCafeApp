@@ -61,6 +61,9 @@ NUGET
       System.Threading.Timer (>= 4.3) - framework: >= net451, >= netstandard12
     NEventStore (5.2) - framework: >= net461
     Newtonsoft.Json (10.0.1) - framework: >= net461
+    Node.js (5.3)
+    Npm.js (2.13.1)
+      Node.js (>= 0.12.7)
     NUnit (3.6) - framework: >= net452
       NETStandard.Library (>= 1.6) - framework: >= net463, >= netstandard16
       System.Runtime.Loader (>= 4.0) - framework: >= net463, >= netstandard16

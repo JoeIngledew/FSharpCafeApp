@@ -6,6 +6,8 @@ nuget FSharp.Data 2.3.2 framework: >= net461
 nuget FsUnit 3.0.0 framework: >= net452
 nuget NEventStore 5.2.0 framework: >= net461
 nuget Newtonsoft.Json 10.0.1 framework: >= net461
+nuget Node.js
+nuget Npm.js
 nuget NUnit 3.6.0 framework: >= net452
 nuget NUnit.Console 3.6.0 framework: >= net452
 nuget NUnit.ConsoleRunner 3.6.0 framework: >= net452
