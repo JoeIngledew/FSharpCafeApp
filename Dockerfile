@@ -9,9 +9,16 @@ COPY . /app
 
 RUN ls
 
+RUN mono paket/paket.bootstrapper.exe
+RUN mono paket/paket.exe restore
+
 RUN chmod +x ./monobuild.sh
 
 RUN sh ./monobuild.sh
+
+RUN ls
+
+RUN mono packages/FAKE/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
 
 EXPOSE 8083
 
