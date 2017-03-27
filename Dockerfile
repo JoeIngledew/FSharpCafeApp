@@ -16,6 +16,8 @@ RUN chmod +x ./monobuild.sh
 
 RUN sh ./monobuild.sh
 
+RUN export NPM_FILE_PATH=$(which npm)
+
 RUN ls
 
 RUN mono packages/FAKE/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx
