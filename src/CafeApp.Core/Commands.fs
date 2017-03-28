@@ -10,7 +10,7 @@ type Command =
 | PrepareFood of Food * Guid
 | ServeFood of Food * Guid
 | CloseTab of Payment
-| ModifyOrder of Order // todo
+| ModifyOrder of Order
 
 // todo the following
 //Modifying an order after it has been placed, adding or removing item DONE
